@@ -1,0 +1,174 @@
+:root {
+  font-family: system-ui, 'Segoe UI', Roboto, Arial, sans-serif;
+  font-size: 15px;
+  color: #1f2937;
+  background: #f3f4f6;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+/* ---------- Header ---------- */
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 12px 24px;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.logo {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.tabs {
+  display: flex;
+  flex: 1;
+  gap: 4px;
+}
+
+.tab {
+  background: none;
+  color: #4b5563;
+}
+
+.tab:hover {
+  background: #f3f4f6;
+}
+
+.tab.active {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.status {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.status::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: #9ca3af;
+}
+
+.status.online::before {
+  background: #16a34a;
+}
+
+.status.offline::before {
+  background: #dc2626;
+}
+
+/* ---------- Page ---------- */
+
+.main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+h1 {
+  margin: 0 0 16px;
+  font-size: 24px;
+}
+
+.card {
+  margin-bottom: 16px;
+  padding: 16px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.form input,
+.form select {
+  flex: 1;
+  min-width: 140px;
+  padding: 8px 10px;
+  font: inherit;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+}
+
+button {
+  padding: 8px 14px;
+  font: inherit;
+  font-weight: 500;
+  color: #ffffff;
+  background: #2563eb;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1d4ed8;
+}
+
+button.danger {
+  padding: 4px 10px;
+  color: #dc2626;
+  background: none;
+  border: 1px solid #fecaca;
+}
+
+button.danger:hover {
+  background: #fef2f2;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #f0f1f3;
+}
+
+th {
+  font-size: 12px;
+  color: #6b7280;
+  text-transform: uppercase;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+.right {
+  text-align: right;
+}
+
+.error {
+  padding: 10px 12px;
+  color: #b91c1c;
+  background: #fef2f2;
+  border-radius: 6px;
+}
+
+.empty {
+  margin: 0;
+  color: #6b7280;
+}
