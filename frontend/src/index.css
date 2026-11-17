@@ -17,8 +17,9 @@ body {
 
 .header {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 24px;
+  gap: 8px 24px;
   padding: 12px 24px;
   background: #ffffff;
   border-bottom: 1px solid #e5e7eb;
@@ -86,6 +87,7 @@ h1 {
 }
 
 .card {
+  overflow-x: auto; /* wide tables scroll inside the card on small screens */
   margin-bottom: 16px;
   padding: 16px;
   background: #ffffff;

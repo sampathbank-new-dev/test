@@ -1,8 +1,10 @@
 # Installed packages (any folder: frontend, backend, ...)
 node_modules/
 
-# Build output
+# Build output, compiler cache and test coverage reports
 dist/
+*.tsbuildinfo
+coverage/
 
 # Environment files with secrets (keep only the examples)
 .env

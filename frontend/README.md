@@ -51,8 +51,8 @@ npm install
 npm run dev
 ```
 
-Open <http://localhost:5173>. Until the backend exists, the header shows **Backend not connected**.
-That is expected.
+Open <http://localhost:5173>. If the backend isn't running, the header shows **Backend not
+connected**.
 
 ## Run it on an Ubuntu server (22.04 / 24.04)
 
@@ -146,8 +146,7 @@ cd frontend && npm ci && npm run build
 sudo rsync -a --delete dist/ /var/www/cbl-frontend/
 ```
 
-## Next step
+## The backend
 
-Step 2 is the NestJS backend: a `backend/` folder with an app on port 3000 that uses `/api` as its
-route prefix. Nginx is already set up to forward `/api` to it, so the frontend will connect
-without any changes.
+The NestJS backend is in [`../backend`](../backend/README.md). It runs on port 3000, and Nginx
+forwards `/api` to it.
