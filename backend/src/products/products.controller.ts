@@ -10,20 +10,20 @@ export class ProductsController {
 
   // GET /api/products
   @Get()
-  findAll(): Product[] {
+  findAll(): Promise<Product[]> {
     return this.productsService.findAll();
   }
 
   // POST /api/products
   @Post()
-  create(@Body() dto: CreateProductDto): Product {
+  create(@Body() dto: CreateProductDto): Promise<Product> {
     return this.productsService.create(dto);
   }
 
   // DELETE /api/products/:id
   @Delete(':id')
   @HttpCode(204)
-  remove(@Param('id', ParseIntPipe) id: number): void {
-    this.productsService.remove(id);
+  async remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
+    await this.productsService.remove(id);
   }
 }

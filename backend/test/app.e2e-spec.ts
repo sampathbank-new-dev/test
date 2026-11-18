@@ -4,10 +4,11 @@ import request from 'supertest';
 import { App } from 'supertest/types.js';
 import { AppModule } from './../src/app.module.js';
 
+// End-to-end test: starts the real app and talks to the MySQL database set in backend/.env.
 describe('CBL Shop API (e2e)', () => {
   let app: INestApplication<App>;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
@@ -19,7 +20,7 @@ describe('CBL Shop API (e2e)', () => {
     await app.init();
   });
 
-  afterEach(async () => {
+  afterAll(async () => {
     await app.close();
   });
 
@@ -27,9 +28,10 @@ describe('CBL Shop API (e2e)', () => {
     return request(app.getHttpServer()).get('/api/health').expect(200).expect({ status: 'ok' });
   });
 
-  it('GET /api/products returns the sample products', async () => {
+  it('GET /api/products returns products with numeric prices', async () => {
     const res = await request(app.getHttpServer()).get('/api/products').expect(200);
-    expect(res.body).toHaveLength(3);
+    expect(res.body.length).toBeGreaterThanOrEqual(3);
+    expect(typeof res.body[0].price).toBe('number');
   });
 
   it('POST /api/products validates the body', async () => {
@@ -45,7 +47,7 @@ describe('CBL Shop API (e2e)', () => {
 
     const created = await request(server)
       .post('/api/products')
-      .send({ name: 'USB-C Cable', price: 1250, stock: 10 })
+      .send({ name: 'E2E test cable', price: 1250.5, stock: 10 })
       .expect(201);
     const id = created.body.id;
 
@@ -53,12 +55,17 @@ describe('CBL Shop API (e2e)', () => {
       .post('/api/orders')
       .send({ productId: id, quantity: 4 })
       .expect(201);
-    expect(order.body).toMatchObject({ productName: 'USB-C Cable', quantity: 4, totalPrice: 5000 });
+    expect(order.body).toMatchObject({ productName: 'E2E test cable', quantity: 4, totalPrice: 5002 });
+    expect(order.body.id).toBeGreaterThan(0);
+    expect(order.body.createdAt).toBeTruthy();
 
+    // Only 6 left now, so 7 is refused and the stock stays at 6.
     await request(server).post('/api/orders').send({ productId: id, quantity: 7 }).expect(400);
+    const products = await request(server).get('/api/products').expect(200);
+    expect(products.body.find((p: { id: number }) => p.id === id).stock).toBe(6);
 
     const orders = await request(server).get('/api/orders').expect(200);
-    expect(orders.body).toHaveLength(1);
+    expect(orders.body.some((o: { id: number }) => o.id === order.body.id)).toBe(true);
 
     await request(server).delete(`/api/products/${id}`).expect(204);
     await request(server).delete(`/api/products/${id}`).expect(404);
@@ -67,7 +74,7 @@ describe('CBL Shop API (e2e)', () => {
   it('POST /api/orders returns 404 for an unknown product', () => {
     return request(app.getHttpServer())
       .post('/api/orders')
-      .send({ productId: 999, quantity: 1 })
+      .send({ productId: 999999, quantity: 1 })
       .expect(404);
   });
 });

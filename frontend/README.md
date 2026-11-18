@@ -108,8 +108,11 @@ npm run build
 
 ```bash
 sudo mkdir -p /var/www/cbl-frontend
-sudo rsync -a --delete dist/ /var/www/cbl-frontend/
+sudo rsync -a --delete ~/cbl/frontend/dist/ /var/www/cbl-frontend/
 ```
+
+Always use the full path `~/cbl/frontend/dist/`: the backend also has a `dist/` folder, and copying
+that one by mistake replaces the website with backend files (Nginx then answers "403 Forbidden").
 
 The files are copied out of your home folder because Nginx is not allowed to read home folders on
 Ubuntu.
@@ -143,7 +146,7 @@ Open `http://<server-ip>/` in a browser. You should see **CBL Shop** with "Backe
 ```bash
 cd ~/cbl && git pull
 cd frontend && npm ci && npm run build
-sudo rsync -a --delete dist/ /var/www/cbl-frontend/
+sudo rsync -a --delete ~/cbl/frontend/dist/ /var/www/cbl-frontend/
 ```
 
 ## The backend

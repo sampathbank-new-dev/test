@@ -10,13 +10,13 @@ export class OrdersController {
 
   // GET /api/orders
   @Get()
-  findAll(): Order[] {
+  findAll(): Promise<Order[]> {
     return this.ordersService.findAll();
   }
 
   // POST /api/orders
   @Post()
-  create(@Body() dto: CreateOrderDto): Order {
+  create(@Body() dto: CreateOrderDto): Promise<Order> {
     return this.ordersService.create(dto);
   }
 }
